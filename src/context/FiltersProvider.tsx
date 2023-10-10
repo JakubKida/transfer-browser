@@ -38,6 +38,19 @@ export const FiltersContextProvider = ({ children }: Props) => {
     entriesPerPage: 10,
   });
 
+  useEffect(() => {
+    setPaging({
+      page: 1,
+      entriesPerPage: paging.entriesPerPage,
+    });
+  }, [
+    paging.entriesPerPage,
+    sortOptions.sortDirection,
+    sortOptions.sortType,
+    selectedUserId,
+    searchValue,
+  ]);
+
   return (
     <FiltersContext.Provider
       value={{

@@ -6,9 +6,12 @@ import transactionsHttp from "../api/transactions";
 import { calculateBalances } from "../utils/calculateBalances";
 import { findTransactionsDetails } from "../utils/findTransactionsDetails";
 import { FiltersContext } from "./FiltersProvider";
+import { sortTransactions } from "../utils/sortTransactions";
+import { filterTransactionByString } from "../utils/filterTransationByString";
 
 export type TransactionsContextType = {
   formattedTransactions: Transaction[];
+  transactionsForDisplaying: Transaction[];
   transactionsData: TransactionResponse[];
   users: Users;
   isDataLoaded: boolean;
@@ -32,7 +35,8 @@ export const TransactionsContextProvider = ({ children }: Props) => {
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-  const { selectedUserId, paging } = useContext(FiltersContext);
+  const { selectedUserId, paging, sortOptions, searchValue } =
+    useContext(FiltersContext);
 
   useEffect(() => {
     const transactionsDetails = findTransactionsDetails(
@@ -80,11 +84,22 @@ export const TransactionsContextProvider = ({ children }: Props) => {
     getData();
   }, [paging, selectedUserId]);
 
+  const transactionsForDisplaying = [...formattedTransactions]
+    .sort((trA, trB) => sortTransactions(trA, trB, sortOptions))
+    .filter((transaction) =>
+      filterTransactionByString(transaction, searchValue)
+    )
+    .slice(
+      (paging.page - 1) * paging.entriesPerPage,
+      (paging.page - 1) * paging.entriesPerPage + paging.entriesPerPage
+    );
+
   return (
     <TransactionsContext.Provider
       value={{
         users,
         formattedTransactions,
+        transactionsForDisplaying,
         transactionsData,
         isDataLoaded,
       }}
