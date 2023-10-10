@@ -1,19 +1,24 @@
 import React from "react";
-import "./App.module.scss";
-import SearchBar from "./components/SearchBar/SearchBar";
+import styles from "./App.module.scss";
 import TransactionTable from "./components/TransactionTable/TransactionTable";
 import TransactionsContextProvider from "./context/TransactionsProvider";
+import FiltersContextProvider from "./context/FiltersProvider";
+import UserPanel from "./components/UserPanel/UserPanel";
+import PageSelector from "./components/PageSelector/PageSelector";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 function App() {
   return (
-    <TransactionsContextProvider>
-      <div className="App">
-        <header className="App-header">
+    <FiltersContextProvider>
+      <TransactionsContextProvider>
+        <div className={styles.mainWrapper}>
+          <UserPanel />
           <SearchBar />
           <TransactionTable />
-        </header>
-      </div>
-    </TransactionsContextProvider>
+          <PageSelector />
+        </div>
+      </TransactionsContextProvider>
+    </FiltersContextProvider>
   );
 }
 

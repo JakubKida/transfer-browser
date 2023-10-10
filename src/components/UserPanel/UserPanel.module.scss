@@ -1,0 +1,15 @@
+@import "../../index.scss";
+
+.userPanel {
+  display: flex;
+  justify-content: space-between;
+  background-color: $darkBlue;
+  color: $white;
+  font-weight: 700;
+  width: 90%;
+  padding: 30px 40px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}

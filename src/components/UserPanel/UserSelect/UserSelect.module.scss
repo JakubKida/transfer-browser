@@ -1,0 +1,10 @@
+@import "../../../index.scss";
+
+.userSelect {
+  background-color: $darkBlue;
+  font-weight: 900;
+  color: $white;
+  border: 2px solid $white;
+  border-radius: 5px;
+  padding: 5px;
+}

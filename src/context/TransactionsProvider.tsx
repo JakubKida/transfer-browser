@@ -1,17 +1,17 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Users } from "../types/User";
 import { Transaction, TransactionResponse } from "../types/Transaction";
 import usersHttp from "../api/users";
 import transactionsHttp from "../api/transactions";
 import { calculateBalances } from "../utils/calculateBalances";
 import { findTransactionsDetails } from "../utils/findTransactionsDetails";
-import { PagingOptions } from "../types/Paging";
+import { FiltersContext } from "./FiltersProvider";
 
 export type TransactionsContextType = {
   formattedTransactions: Transaction[];
+  transactionsData: TransactionResponse[];
   users: Users;
   isDataLoaded: boolean;
-  setPaging: React.Dispatch<React.SetStateAction<PagingOptions>>;
 };
 
 type Props = {
@@ -32,16 +32,24 @@ export const TransactionsContextProvider = ({ children }: Props) => {
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-  const [paging, setPaging] = useState({ page: 0, entriesPerPage: 50 });
+  const { selectedUserId, paging } = useContext(FiltersContext);
 
   useEffect(() => {
     const transactionsDetails = findTransactionsDetails(
       transactionsData,
       users,
-      paging
+      paging,
+      selectedUserId
     );
     setFormattedTransactions(transactionsDetails);
-  }, [paging.page, paging.entriesPerPage, transactionsData, users, paging]);
+  }, [
+    paging.page,
+    paging.entriesPerPage,
+    transactionsData,
+    users,
+    paging,
+    selectedUserId,
+  ]);
 
   useEffect(() => {
     const getData = async () => {
@@ -59,7 +67,8 @@ export const TransactionsContextProvider = ({ children }: Props) => {
       const transactionsDetails = findTransactionsDetails(
         transactionsData,
         usersObj,
-        paging
+        paging,
+        selectedUserId
       );
 
       setUsers(usersObj);
@@ -69,15 +78,15 @@ export const TransactionsContextProvider = ({ children }: Props) => {
     };
 
     getData();
-  }, [paging]);
+  }, [paging, selectedUserId]);
 
   return (
     <TransactionsContext.Provider
       value={{
         users,
         formattedTransactions,
+        transactionsData,
         isDataLoaded,
-        setPaging,
       }}
     >
       {children}

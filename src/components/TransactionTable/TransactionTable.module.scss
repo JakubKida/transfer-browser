@@ -1,0 +1,14 @@
+@import "../../index.scss";
+
+.transactionTable {
+  background-color: $darkBlue;
+  width: 90%;
+  padding: 30px 40px;
+
+  &Loader {
+    color: $white;
+    text-align: center;
+    font-size: 2rem;
+    padding: 60px 40px;
+  }
+}

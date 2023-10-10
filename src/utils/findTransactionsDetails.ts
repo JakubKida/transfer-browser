@@ -5,12 +5,25 @@ import { Users } from "../types/User";
 export const findTransactionsDetails = (
   transactionsData: TransactionResponse[],
   usersObj: Users,
-  paging: PagingOptions
+  paging: PagingOptions,
+  selectedUserId: string | null
 ) => {
-  const transactions: Transaction[] = transactionsData
+  let filteredTransactions: TransactionResponse[] = [];
+
+  if (selectedUserId) {
+    filteredTransactions = transactionsData.filter(
+      (transactionData) =>
+        transactionData.sourceId === selectedUserId ||
+        transactionData.targetId === selectedUserId
+    );
+  } else {
+    filteredTransactions = transactionsData;
+  }
+
+  const transactions: Transaction[] = filteredTransactions
     .slice(
-      paging.page * paging.entriesPerPage,
-      paging.page * paging.entriesPerPage + paging.entriesPerPage
+      (paging.page - 1) * paging.entriesPerPage,
+      (paging.page - 1) * paging.entriesPerPage + paging.entriesPerPage
     )
     .map(({ sourceId, targetId, amount }: TransactionResponse) => {
       const sourceName = usersObj[sourceId]?.name || "";

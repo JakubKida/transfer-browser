@@ -1,0 +1,35 @@
+@import "../../../index.scss";
+
+.transactionTableRow {
+  padding: 5px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  color: $white;
+  font-size: 600;
+
+  &:hover {
+    filter: brightness(115%);
+  }
+
+  p {
+    flex: 1;
+    margin: 16px;
+  }
+
+  &:nth-child(2n) {
+    background-color: $darkBlue;
+  }
+
+  &:nth-child(2n + 1) {
+    background-color: $mediumDarkBlue;
+  }
+
+  &Send {
+    color: red;
+  }
+
+  &Received {
+    color: green;
+  }
+}

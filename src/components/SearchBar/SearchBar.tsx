@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import styles from "./SearchBar.module.scss";
+import { FiltersContext } from "../../context/FiltersProvider";
 
-function SearchBar() {
-  const [user, setUser] = useState("");
+type Props = {};
 
+const SearchBar = (props: Props) => {
+  const { searchValue, setSearchValue } = useContext(FiltersContext);
   return (
-    <div className="App">
-      View as:{" "}
+    <div className={styles.searchBar}>
+      Search:{" "}
       <input
         type="text"
-        value={user}
-        onChange={(e) => setUser(e.target.value)}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
       ></input>
-      <p>{user}</p>
     </div>
   );
-}
+};
 
 export default SearchBar;
