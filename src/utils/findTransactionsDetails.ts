@@ -20,12 +20,8 @@ export const findTransactionsDetails = (
     filteredTransactions = transactionsData;
   }
 
-  const transactions: Transaction[] = filteredTransactions
-    .slice(
-      (paging.page - 1) * paging.entriesPerPage,
-      (paging.page - 1) * paging.entriesPerPage + paging.entriesPerPage
-    )
-    .map(({ sourceId, targetId, amount }: TransactionResponse) => {
+  const transactions: Transaction[] = filteredTransactions.map(
+    ({ sourceId, targetId, amount }: TransactionResponse) => {
       const sourceName = usersObj[sourceId]?.name || "";
 
       const targetName = usersObj[targetId]?.name || "";
@@ -37,7 +33,8 @@ export const findTransactionsDetails = (
         targetName,
         amount,
       };
-    });
+    }
+  );
 
   return transactions;
 };

@@ -9,7 +9,7 @@ type Props = {};
 
 const PageSelector = (props: Props) => {
   const { paging, setPaging } = useContext(FiltersContext);
-  const { transactionsData } = useContext(TransactionsContext);
+  const { transactionsForDisplaying } = useContext(TransactionsContext);
 
   const changePage = (newPaging: PagingOptions) => {
     setPaging(newPaging);
@@ -51,7 +51,8 @@ const PageSelector = (props: Props) => {
         }
         style={{
           display:
-            paging.page > transactionsData.length / paging.entriesPerPage
+            paging.page >
+            transactionsForDisplaying.length / paging.entriesPerPage
               ? "none"
               : "inline",
         }}
@@ -88,7 +89,7 @@ const PageSelector = (props: Props) => {
           <option key="50" value="50">
             50
           </option>
-          <option key="50" value="50">
+          <option key="100" value="100">
             100
           </option>
         </select>
